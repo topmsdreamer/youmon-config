@@ -1,0 +1,31 @@
+{
+  "cli": {
+    "version": ">= 2.1.0",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "releaseChannel": "prod",
+      "env": {
+        "APP_ENV": "prod"
+      }
+    },
+    "development-simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

@@ -1,0 +1,15 @@
+
+# dependencies
+/node_modules
+
+
+# production
+/build
+
+package-lock.json
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.gitignore
+.prettierignore

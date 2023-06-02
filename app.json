@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "ym-edge-config",
+    "slug": "ym-edge-config",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "owner" : "youmoni",
+    "scheme": "nimbus.connect",
+    "icon": "./src/assets/icon.png",
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.youmoni.nimbus.connect",
+      "supportsTablet": true,
+      "buildNumber": "1"
+    },
+    "android": {
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.youmoni.nimbus.connect",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "RECORD_AUDIO",
+        "CAMERA"
+      ]
+    },
+    "web": {
+      "favicon": "./src/assets/favicon.png"
+    }
+  }
+}

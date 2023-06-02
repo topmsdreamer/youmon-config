@@ -1,0 +1,204 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "Configuration file for a device",
+    "properties": {
+        "connectivity": {
+            "type": "object",
+            "description": "Settings related to device connectivity",
+            "properties": {
+                "wifi": {
+                    "type": "object",
+                    "description": "Settings related to WiFi connectivity",
+                    "properties": {
+                        "ssid": {
+                            "type": "string",
+                            "description": "The SSID of the WiFi network to connect to"
+                        },
+                        "password": {
+                            "type": "string",
+                            "description": "The password for the WiFi network"
+                        }
+                    },
+                    "required": ["ssid", "password"]
+                },
+                "mqtt": {
+                    "type": "object",
+                    "description": "Settings related to MQTT connectivity",
+                    "properties": {
+                        "broker": {
+                            "type": "string",
+                            "description": "The hostname or IP address of the MQTT broker"
+                        },
+                        "port": {
+                            "type": "integer",
+                            "description": "The port number for the MQTT broker"
+                        },
+                        "username": {
+                            "type": "string",
+                            "description": "The username for the MQTT broker"
+                        },
+                        "password": {
+                            "type": "string",
+                            "description": "The password for the MQTT broker"
+                        },
+                        "topic": {
+                            "type": "string",
+                            "description": "The topic to subscribe/publish messages"
+                        }
+                    },
+                    "required": ["broker", "port", "topic"]
+                },
+                "external_modem": {
+                    "type": "object",
+                    "description": "Settings related to external modem connectivity",
+                    "properties": {
+                        "mode": {
+                            "type": "string",
+                            "description": "The type of communication with the external modem",
+                            "enum": ["rs232"]
+                        },
+                        "rs232_config": {
+                            "type": "object",
+                            "description": "Settings related to RS232 communication with the external modem",
+                            "properties": {
+                                "baud_rate": {
+                                    "type": "integer",
+                                    "description": "The baud rate for the RS232 communication",
+                                    "enum": [9600, 19200, 38400, 57600, 115200]
+                                },
+                                "data_bits": {
+                                    "type": "integer",
+                                    "description": "The number of data bits for the RS232 communication",
+                                    "enum": [5, 6, 7, 8],
+                                    "default": 8
+                                },
+                                "parity": {
+                                    "type": "string",
+                                    "description": "The parity for the RS232 communication",
+                                    "enum": ["none", "even", "odd"],
+                                    "default": "none"
+                                },
+                                "stop_bits": {
+                                    "type": "integer",
+                                    "description": "The number of stop bits for the RS232 communication",
+                                    "enum": [1, 2],
+                                    "default": 1
+                                },
+                                "flow_control": {
+                                    "type": "string",
+                                    "description": "The flow control for the RS232 communication",
+                                    "enum": ["none", "hardware"],
+                                    "default": "none"
+                                },
+                                "format": {
+                                    "type": "string",
+                                    "description": "The format for the RS232 communication",
+                                    "enum": ["mqtt"],
+                                    "default": "mqtt"
+                                }
+                            },
+                            "required": ["baud_rate", "format"]
+                        }
+                    },
+                    "required": ["mode"],
+                    "if": {
+                        "properties": {
+                            "mode": {"const": "rs232"}
+                        }
+                    },
+                    "then": {
+                        "required": ["rs232_config"]
+                    }
+                }
+            },
+            "dependentRequired": {
+                "mqtt": ["wifi"]
+            },
+            "if":
+            {
+                "properties": {
+                    "external_modem": {
+                        "properties": {
+                            "rs232_config": {
+                                "properties": {
+                                    "format": {"const": "mqtt"}
+                                }
+                            }   
+                        }
+                    }
+                }
+            },
+            "then": {
+                "required": ["mqtt"]
+            }
+        },
+        "power": {
+            "type": "object",
+            "description": "Settings related to device power",
+            "properties": {
+                "power_mode": {
+                    "type": "string",
+                    "description": "The power mode of the device",
+                    "enum": ["performance", "balanced", "power_saving"],
+                    "default": "balanced"
+                }
+            },
+            "required": ["power_mode"]
+        },
+        "heartbeat": {
+            "type": "object",
+            "description": "Settings related to device heartbeat",
+            "properties": {
+                "interval": {
+                    "type": "object",
+                    "description": "The interval for the heartbeat",
+                    "anyOf": [
+                        {"required" : ["hours"]},
+                        {"required" : ["minutes"]},
+                        {"required" : ["seconds"]}
+                    ],
+                    "properties": {
+                        "hours": {
+                            "type": "integer",
+                            "description": "The number of hours between heartbeats",
+                            "minimum": 0,
+                            "maximum": 168,
+                            "default": 1
+                        },
+                        "minutes": {
+                            "type": "integer",
+                            "description": "The number of minutes between heartbeats",
+                            "minimum": 0,
+                            "maximum": 59,
+                            "default": 0
+                        },
+                        "seconds": {
+                            "type": "integer",
+                            "description": "The number of seconds between heartbeats",
+                            "minimum": 0,
+                            "maximum": 59,
+                            "default": 0
+                        }
+                    },
+                    "if": {
+                        "properties": {
+                            "hours": {"const": 0},
+                            "minutes": {"const": 0},
+                            "seconds": {"const": 0}
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "hours": {"exclusiveMinimum": 1},
+                            "minutes": {"exclusiveMinimum": 1},
+                            "seconds": {"exclusiveMinimum": 1}
+                        }
+                    }
+                }
+            },
+            "required": ["interval"]
+        }
+    },
+    "required": ["connectivity", "power"]
+}

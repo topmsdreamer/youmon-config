@@ -1,0 +1,71 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "airbnb/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["prettier"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "rules": {
+    "spaced-comment": "off",
+    "prettier/prettier": ["warn", { "endOfLine": "auto", "arrowParens": "always" }],
+    "no-trailing-spaces": ["warn", "always"],
+    // "semi": ["error", "always"],
+    // "object-curly-spacing": ["error", "always"],
+    "camelcase": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": 1,
+    "@typescript-eslint/no-inferrable-types": [
+      "warn",
+      {
+        "ignoreParameters": true
+      }
+    ],
+    "no-underscore-dangle": "off",
+    "no-shadow": "off",
+    "no-new": 0,
+    "@typescript-eslint/no-shadow": ["warn"],
+    "@typescript-eslint/no-unused-vars": "warn",
+    "quotes": [2, "double", { "avoidEscape": true }],
+    "class-methods-use-this": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
+    "array-callback-return": "off",
+    "consistent-return": "off",
+    "no-plusplus": "off",
+    "arrow-body-style": "off",
+    "prefer-destructuring": "off", // property can be undefined.
+    "no-use-before-define": "off",
+    "max-classes-per-file": "off",
+    "no-nested-ternary": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "import/no-cycle": "warn",
+    "no-unused-expressions": ["error", { "allowShortCircuit": true }],
+    "no-unsafe-optional-chaining": ["error", { "disallowArithmeticOperators": false }]
+  }
+}
